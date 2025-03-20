@@ -1,0 +1,119 @@
+<!--pages/stats/stats.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">统计分析</text>
+  </view>
+  
+  <!-- 切换周期 -->
+  <view class="period-selector">
+    <view class="selector-item {{period === 'week' ? 'active' : ''}}" data-period="week" bindtap="onPeriodChange">
+      <text>周</text>
+    </view>
+    <view class="selector-item {{period === 'month' ? 'active' : ''}}" data-period="month" bindtap="onPeriodChange">
+      <text>月</text>
+    </view>
+    <view class="selector-item {{period === 'all' ? 'active' : ''}}" data-period="all" bindtap="onPeriodChange">
+      <text>全部</text>
+    </view>
+  </view>
+  
+  <!-- 加载提示 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-icon">
+      <my-icon type="sync" color="#4b7ffb" size="80"></my-icon>
+    </view>
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 无数据提示 -->
+  <view wx:elif="{{records.length === 0}}" class="empty-container">
+    <view class="empty-icon">
+      <my-icon type="chart" color="#4b7ffb" size="80"></my-icon>
+    </view>
+    <text>暂无记录数据</text>
+    <text class="empty-hint">开始记录你的体重吧</text>
+  </view>
+  
+  <!-- 有数据时显示 -->
+  <view wx:else class="stats-container">
+    <!-- 统计数值 -->
+    <view class="stats-cards">
+      <view class="stats-card">
+        <text class="stats-label">平均体重</text>
+        <text class="stats-value">{{stats.averageWeight}} kg</text>
+      </view>
+      <view class="stats-card">
+        <text class="stats-label">最低体重</text>
+        <text class="stats-value">{{stats.lowestWeight}} kg</text>
+      </view>
+      <view class="stats-card">
+        <text class="stats-label">最高体重</text>
+        <text class="stats-value">{{stats.highestWeight}} kg</text>
+      </view>
+      <view class="stats-card">
+        <text class="stats-label">总变化</text>
+        <view class="stats-value-wrapper">
+          <my-icon wx:if="{{stats.totalChange < 0}}" type="arrow-down" size="24" color="#42b883"></my-icon>
+          <my-icon wx:if="{{stats.totalChange > 0}}" type="arrow-up" size="24" color="#fa6767"></my-icon>
+          <text class="stats-value {{stats.totalChange < 0 ? 'decrease' : stats.totalChange > 0 ? 'increase' : ''}}">
+            {{stats.totalChange > 0 ? '+' : ''}}{{stats.totalChange}} kg
+          </text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 体重趋势图 -->
+    <view class="chart-container">
+      <view class="chart-title">体重趋势</view>
+      <view class="chart-area">
+        <!-- 这里假设使用小程序组件绘制图表 -->
+        <view class="chart-placeholder">
+          <!-- 绘制简单的条形图 -->
+          <view class="chart-bars">
+            <view wx:for="{{chartData}}" wx:key="date" class="chart-bar-wrapper">
+              <view class="chart-bar" style="height: {{(item.weight - stats.lowestWeight + 1) / (stats.highestWeight - stats.lowestWeight + 2) * 100}}%"></view>
+              <text class="chart-label">{{item.date}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 日历视图 -->
+    <view class="calendar-container">
+      <view class="calendar-header">
+        <view class="calendar-arrow" bindtap="onPrevMonth">
+          <my-icon type="chevron-left" color="#666" size="28"></my-icon>
+        </view>
+        <text class="calendar-title">{{currentMonth}}</text>
+        <view class="calendar-arrow" bindtap="onNextMonth">
+          <my-icon type="chevron-right" color="#666" size="28"></my-icon>
+        </view>
+      </view>
+      
+      <view class="weekday-header">
+        <text class="weekday">日</text>
+        <text class="weekday">一</text>
+        <text class="weekday">二</text>
+        <text class="weekday">三</text>
+        <text class="weekday">四</text>
+        <text class="weekday">五</text>
+        <text class="weekday">六</text>
+      </view>
+      
+      <view class="calendar-grid">
+        <view 
+          wx:for="{{calendarData}}" 
+          wx:key="fullDate" 
+          class="calendar-day {{item.isCurrentMonth ? 'current-month' : 'other-month'}} {{item.hasRecord ? 'has-record' : ''}}"
+          data-index="{{index}}"
+          bindtap="onDayTap"
+        >
+          <text class="day-number">{{item.day}}</text>
+          <text wx:if="{{item.hasRecord}}" class="day-weight">{{item.weight}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

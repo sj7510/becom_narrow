@@ -1,0 +1,370 @@
+/* pages/profile/profile.wxss */
+
+.container {
+  min-height: 100vh;
+  padding: 0 30rpx;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 30rpx);
+  background-color: #f9f9f9;
+}
+
+/* 头部样式 */
+.header {
+  position: sticky;
+  top: 0;
+  height: 100rpx;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  z-index: 10;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 用户卡片样式 */
+.user-card {
+  margin: 20rpx 0 40rpx;
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.avatar-container {
+  margin-right: 30rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #f1f1f1;
+}
+
+.avatar-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 60rpx;
+  background-color: #f1f1f1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+  margin-bottom: 10rpx;
+}
+
+.login-btn {
+  margin-top: 10rpx;
+  font-size: 28rpx;
+  color: #4b7ffb;
+  background: none;
+  padding: 0;
+  line-height: 1.5;
+  border: none;
+}
+
+.login-btn::after {
+  border: none;
+}
+
+/* 表单样式 */
+.profile-form {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.form-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 30rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.form-section {
+  margin-bottom: 40rpx;
+}
+
+.input-group {
+  margin-bottom: 30rpx;
+}
+
+.input-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 10rpx;
+}
+
+.input-field {
+  height: 80rpx;
+  border: 1px solid #e5e5e5;
+  border-radius: 10rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f9f9f9;
+}
+
+.radio-group {
+  display: flex;
+  margin-top: 10rpx;
+}
+
+.radio-label {
+  display: flex;
+  align-items: center;
+  margin-right: 40rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+.picker-field {
+  height: 80rpx;
+  border: 1px solid #e5e5e5;
+  border-radius: 10rpx;
+  padding: 0 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  background-color: #f9f9f9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.picker-arrow {
+  font-size: 24rpx;
+  color: #999;
+}
+
+/* 健康卡片样式 */
+.health-card {
+  margin-top: 20rpx;
+  background-color: #f9f9f9;
+  border-radius: 15rpx;
+  padding: 20rpx;
+}
+
+.health-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15rpx 10rpx;
+  border-bottom: 1px solid #eee;
+}
+
+.health-item:last-child {
+  border-bottom: none;
+}
+
+.health-label {
+  display: flex;
+  align-items: center;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.info-icon {
+  display: inline-block;
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 36rpx;
+  text-align: center;
+  background-color: #e5e5e5;
+  color: #666;
+  border-radius: 18rpx;
+  font-size: 24rpx;
+  margin-left: 10rpx;
+}
+
+.health-value {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+/* 保存按钮 */
+.save-btn {
+  width: 100%;
+  height: 90rpx;
+  line-height: 90rpx;
+  background-color: #4b7ffb;
+  color: white;
+  font-size: 32rpx;
+  border-radius: 45rpx;
+  margin-top: 40rpx;
+  margin-bottom: 20rpx;
+}
+
+/* 其他选项样式 */
+.other-options {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 10rpx 30rpx;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.06);
+}
+
+.option-item {
+  display: flex;
+  align-items: center;
+  padding: 30rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.option-item:last-child {
+  border-bottom: none;
+}
+
+.option-icon {
+  margin-right: 20rpx;
+  font-size: 40rpx;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333;
+}
+
+.option-arrow {
+  color: #999;
+  font-size: 36rpx;
+}
+
+/* 模态框样式 */
+.modal-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 100;
+}
+
+.modal-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  background-color: #fff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  z-index: 101;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.modal-title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 40rpx;
+  color: #999;
+}
+
+.modal-content {
+  padding: 30rpx;
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+/* BMI信息样式 */
+.bmi-info {
+  margin-bottom: 30rpx;
+}
+
+.bmi-info-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 15rpx 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.bmi-range {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.bmi-status {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #333;
+}
+
+.bmi-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+}
+
+/* 卡路里说明样式 */
+.calories-desc {
+  font-size: 28rpx;
+  color: #666;
+  line-height: 1.6;
+  white-space: pre-line;
+}
+
+/* 成功提示样式 */
+.success-toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 15rpx;
+  padding: 30rpx 50rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 999;
+}
+
+.success-icon {
+  width: 80rpx;
+  height: 80rpx;
+  line-height: 80rpx;
+  text-align: center;
+  background-color: #42b883;
+  color: white;
+  border-radius: 40rpx;
+  font-size: 50rpx;
+  margin-bottom: 20rpx;
+}
+
+.success-text {
+  font-size: 30rpx;
+  color: white;
+}

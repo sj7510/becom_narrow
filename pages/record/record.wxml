@@ -1,0 +1,145 @@
+<!--pages/record/record.wxml-->
+<view class="container">
+  <view class="header">
+    <view class="header-title">记录体重</view>
+  </view>
+  
+  <!-- 体重输入区域 -->
+  <view class="weight-input-container">
+    <view class="weight-input-box" bindtap="showNumKeyboard" data-type="weight">
+      <input type="digit" class="weight-input" value="{{weight}}" disabled placeholder="0.0" />
+      <text class="weight-unit">kg</text>
+    </view>
+  </view>
+  
+  <!-- 日期时间选择器 -->
+  <view class="date-time-selectors">
+    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+      <view class="date-selector">
+        <my-icon type="calendar" color="#4b7ffb" size="40"></my-icon>
+        <text class="date-text">{{date}}</text>
+      </view>
+    </picker>
+    
+    <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+      <view class="time-selector">
+        <my-icon type="clock" color="#4b7ffb" size="40"></my-icon>
+        <text class="time-text">{{time}}</text>
+      </view>
+    </picker>
+  </view>
+  
+  <!-- 其他指标输入区域 -->
+  <view class="metrics-container">
+    <view class="metrics-header">
+      <text class="metrics-title">其他指标</text>
+      <text class="metrics-subtitle">（选填）</text>
+    </view>
+    
+    <view class="metrics-input-group">
+      <view class="metric-item">
+        <text class="metric-label">体脂率 (%)</text>
+        <view class="metric-input-box" bindtap="showNumKeyboard" data-type="bodyFat">
+          <input type="digit" class="metric-input" value="{{bodyFat}}" disabled placeholder="0.0" />
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 备注输入区域 -->
+  <view class="note-container">
+    <view class="note-header">
+      <text class="note-title">备注</text>
+    </view>
+    <view class="note-input-box">
+      <input type="text" class="note-input" value="{{note}}" bindinput="onNoteInput" placeholder="添加备注，如：早餐前、运动后" />
+    </view>
+  </view>
+  
+  <!-- 设备同步区域 -->
+  <view class="device-container">
+    <view class="device-info">
+      <view class="device-icon">
+        <my-icon type="weight" color="#4b7ffb" size="40"></my-icon>
+      </view>
+      <view class="device-content">
+        <text class="device-name">{{device.name}}</text>
+        <text class="device-status">上次同步：{{device.lastSync}}</text>
+      </view>
+    </view>
+    <button class="sync-btn" bindtap="syncDevice">
+      <my-icon type="sync" color="#ffffff" size="28"></my-icon>
+      <text>同步</text>
+    </button>
+  </view>
+  
+  <!-- 最近记录区域 -->
+  <view class="recent-records-container" wx:if="{{savedRecords.length > 0}}">
+    <view class="recent-records-header">
+      <text class="recent-records-title">最近记录</text>
+    </view>
+    <view class="records-list">
+      <view class="record-item" wx:for="{{savedRecords}}" wx:key="date">
+        <view class="record-date-time">
+          <my-icon type="calendar" color="#666" size="24"></my-icon>
+          <text class="record-date">{{item.date}}</text>
+          <my-icon type="clock" color="#666" size="24"></my-icon>
+          <text class="record-time">{{item.time}}</text>
+        </view>
+        <view class="record-metrics">
+          <text class="record-weight">{{item.weight}} kg</text>
+          <text class="record-body-fat" wx:if="{{item.bodyFat}}">体脂 {{item.bodyFat}}%</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 保存按钮 -->
+  <view class="save-btn-container">
+    <button class="save-btn" bindtap="saveRecord">
+      <my-icon type="save" color="#ffffff" size="28"></my-icon>
+      <text>保存记录</text>
+    </button>
+  </view>
+  
+  <!-- 数字键盘 -->
+  <view class="keyboard-mask" wx:if="{{showKeyboard}}" bindtap="hideNumKeyboard"></view>
+  <view class="keyboard-container" wx:if="{{showKeyboard}}">
+    <view class="keyboard-header">
+      <text class="keyboard-title">{{currentInput === 'weight' ? '输入体重' : '输入体脂率'}}</text>
+      <view class="keyboard-close" bindtap="hideNumKeyboard">
+        <my-icon type="times-circle" color="#999" size="32"></my-icon>
+      </view>
+    </view>
+    <view class="keyboard-rows">
+      <view class="keyboard-row">
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="1">1</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="2">2</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="3">3</view>
+      </view>
+      <view class="keyboard-row">
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="4">4</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="5">5</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="6">6</view>
+      </view>
+      <view class="keyboard-row">
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="7">7</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="8">8</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="9">9</view>
+      </view>
+      <view class="keyboard-row">
+        <view class="keyboard-key" bindtap="onKeyTap" data-key=".">.</view>
+        <view class="keyboard-key" bindtap="onKeyTap" data-key="0">0</view>
+        <view class="keyboard-key delete-key" bindtap="onKeyTap" data-key="delete">
+          <my-icon type="trash" color="#ff4d4f" size="28"></my-icon>
+        </view>
+      </view>
+    </view>
+    <view class="keyboard-done-row">
+      <view class="keyboard-done" bindtap="onKeyTap" data-key="done">
+        <my-icon type="check-circle" color="#ffffff" size="28"></my-icon>
+        <text>完成</text>
+      </view>
+    </view>
+  </view>
+</view>

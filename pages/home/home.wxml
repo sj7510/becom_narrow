@@ -1,0 +1,114 @@
+<!--pages/home/home.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <view class="logo">变窄</view>
+    <view class="notification-btn">
+      <my-icon type="bell" color="#4b7ffb" size="44"></my-icon>
+      <view class="notification-badge" wx:if="{{hasNotification}}"></view>
+    </view>
+  </view>
+
+  <!-- 加载中提示 -->
+  <view class="loading-container" wx:if="{{loading}}">
+    <view class="loading-icon">
+      <my-icon type="sync" color="#4b7ffb" size="80"></my-icon>
+    </view>
+    <view class="loading-text">加载中...</view>
+  </view>
+
+  <block wx:else>
+    <!-- BMI卡片 -->
+    <view class="bmi-card">
+      <view class="bmi-header">
+        <view class="bmi-title">BMI 指数</view>
+        <view class="bmi-info">健康状态评估</view>
+      </view>
+      <view class="bmi-content">
+        <view class="bmi-value">{{bmi}}</view>
+        <view class="bmi-status" style="color: {{bmiStatus.color}}">{{bmiStatus.status}}</view>
+      </view>
+      <view class="bmi-range">
+        <view class="bmi-marker" style="left: {{bmi < 18.5 ? 10 : (bmi < 24 ? 37 : (bmi < 28 ? 63 : 85))}}%"></view>
+      </view>
+      <view class="bmi-labels">
+        <text>偏瘦</text>
+        <text>健康</text>
+        <text>超重</text>
+        <text>肥胖</text>
+      </view>
+    </view>
+
+    <!-- 体重卡片 -->
+    <view class="weight-card">
+      <view class="weight-header">
+        <view class="weight-title">当前体重</view>
+        <view class="weight-date">
+          <my-icon type="calendar" color="#666" size="28"></my-icon>
+          <text class="date-text">{{latestWeight.date}}</text>
+        </view>
+      </view>
+      <view class="weight-content">
+        <view class="weight-value">{{latestWeight.weight}}<text class="weight-unit">kg</text></view>
+        <view wx:if="{{weightChange}}" class="weight-change {{weightChangeType}}">
+          <my-icon type="{{weightChangeType === 'increase' ? 'arrow-up' : 'arrow-down'}}" size="28" color="{{weightChangeType === 'increase' ? '#ff5252' : '#42b883'}}"></my-icon>
+          <text>{{weightChange}} kg</text>
+        </view>
+      </view>
+      <view class="weight-chart-container">
+        <view class="weight-chart">
+          <!-- 简易图表实现 -->
+          <view class="chart-container">
+            <view wx:for="{{chartData}}" wx:key="date" class="chart-column">
+              <view class="chart-bar" style="height: {{(item.weight - 60) * 20}}rpx;"></view>
+              <view class="chart-label">{{item.date}}</view>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="view-details" bindtap="goToStats">
+        查看详细数据 <my-icon type="chevron-right" color="#4b7ffb" size="28"></my-icon>
+      </view>
+    </view>
+
+    <!-- 目标进度卡片 -->
+    <view class="goal-card">
+      <view class="goal-header">
+        <view class="goal-title">目标进度</view>
+        <view class="goal-subtitle">
+          <my-icon type="{{userInfo.goalType === 'reduce' ? 'arrow-down' : (userInfo.goalType === 'increase' ? 'arrow-up' : 'minus')}}" size="24" color="#666"></my-icon>
+          <text>{{userInfo.goalType === 'reduce' ? '减重目标' : userInfo.goalType === 'increase' ? '增肌目标' : '体重维持'}}:
+          {{userInfo.targetWeight}} kg</text>
+        </view>
+      </view>
+      <view class="goal-progress">
+        <view class="progress-container">
+          <view class="progress-bar" style="width: {{goalProgress}}%"></view>
+        </view>
+        <view class="progress-text">{{goalProgress}}%</view>
+      </view>
+      <view class="goal-detail">
+        <view class="goal-item">
+          <view class="goal-item-label">当前</view>
+          <view class="goal-item-value">{{latestWeight.weight}} kg</view>
+        </view>
+        <view class="goal-item">
+          <view class="goal-item-label">目标</view>
+          <view class="goal-item-value">{{userInfo.targetWeight}} kg</view>
+        </view>
+        <view class="goal-item">
+          <view class="goal-item-label">目标日期</view>
+          <view class="goal-item-value">
+            <my-icon type="calendar" color="#666" size="24"></my-icon>
+            <text>{{userInfo.targetDate}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </block>
+
+  <!-- 快捷记录按钮 -->
+  <view class="float-btn" bindtap="goToRecord">
+    <my-icon type="plus" color="#ffffff" size="48"></my-icon>
+  </view>
+</view>

@@ -1,0 +1,224 @@
+<!--pages/profile/profile.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">我的</text>
+  </view>
+  
+  <!-- 用户信息 -->
+  <view class="user-card">
+    <view class="avatar-container">
+      <block wx:if="{{userInfo.avatarUrl && userInfo.avatarUrl.indexOf('/assets/') === 0}}">
+        <view class="avatar-icon">
+          <my-icon type="user" color="#4b7ffb" size="80"></my-icon>
+        </view>
+      </block>
+      <block wx:else>
+        <image class="avatar" src="{{userInfo.avatarUrl}}" mode="aspectFill"></image>
+      </block>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo.nickName}}</text>
+      <view class="user-login" wx:if="{{!hasUserInfo}}">
+        <button class="login-btn" bindtap="getUserProfile">
+          <my-icon type="user-edit" color="#ffffff" size="28"></my-icon>
+          <text>点击登录</text>
+        </button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 个人信息表单 -->
+  <view class="profile-form">
+    <view class="form-title">个人信息</view>
+    
+    <!-- 基本信息 -->
+    <view class="form-section">
+      <view class="input-group">
+        <text class="input-label">初始体重 (kg)</text>
+        <input class="input-field" type="digit" value="{{initialWeight}}" bindinput="onInitialWeightInput" placeholder="输入初始体重" />
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">目标体重 (kg)</text>
+        <input class="input-field" type="digit" value="{{targetWeight}}" bindinput="onTargetWeightInput" placeholder="输入目标体重" />
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">身高 (cm)</text>
+        <input class="input-field" type="digit" value="{{height}}" bindinput="onHeightInput" placeholder="输入身高" />
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">年龄</text>
+        <input class="input-field" type="number" value="{{age}}" bindinput="onAgeInput" placeholder="输入年龄" />
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">性别</text>
+        <radio-group class="radio-group" bindchange="onGenderChange">
+          <label class="radio-label">
+            <radio value="male" checked="{{gender === 'male'}}" />
+            <my-icon type="male" color="#4b7ffb" size="28"></my-icon>
+            <text>男</text>
+          </label>
+          <label class="radio-label">
+            <radio value="female" checked="{{gender === 'female'}}" />
+            <my-icon type="female" color="#ff5252" size="28"></my-icon>
+            <text>女</text>
+          </label>
+        </radio-group>
+      </view>
+      
+      <view class="input-group">
+        <text class="input-label">活动水平</text>
+        <picker bindchange="onActivityChange" value="{{activity}}" range="{{['低活动', '中度活动', '高活动']}}" range-key="">
+          <view class="picker-field">
+            <text wx:if="{{activity === 'low'}}">低活动</text>
+            <text wx:elif="{{activity === 'moderate'}}">中度活动</text>
+            <text wx:elif="{{activity === 'high'}}">高活动</text>
+            <text wx:else>请选择</text>
+            <my-icon type="chevron-down" color="#999" size="24"></my-icon>
+          </view>
+        </picker>
+      </view>
+    </view>
+    
+    <!-- 健康指标 -->
+    <view class="form-section">
+      <view class="form-title">健康指标</view>
+      
+      <view class="health-card">
+        <view class="health-item">
+          <view class="health-label">
+            <text>BMI 指数</text>
+            <view class="info-icon" bindtap="showBmiInfo">
+              <my-icon type="question-circle" color="#4b7ffb" size="28"></my-icon>
+            </view>
+          </view>
+          <view class="health-value">{{bmi || '计算中'}}</view>
+        </view>
+        
+        <view class="health-item">
+          <view class="health-label">
+            <text>基础代谢率</text>
+            <view class="info-icon" bindtap="showCaloriesInfo">
+              <my-icon type="question-circle" color="#4b7ffb" size="28"></my-icon>
+            </view>
+          </view>
+          <view class="health-value">{{bmr || '计算中'}} kcal</view>
+        </view>
+        
+        <view class="health-item">
+          <view class="health-label">
+            <text>推荐热量摄入</text>
+            <view class="info-icon" bindtap="showCaloriesInfo">
+              <my-icon type="question-circle" color="#4b7ffb" size="28"></my-icon>
+            </view>
+          </view>
+          <view class="health-value">{{recommendedCalories || '计算中'}} kcal</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 保存按钮 -->
+    <button class="save-btn" bindtap="saveProfile">
+      <my-icon type="save" color="#ffffff" size="28"></my-icon>
+      <text>保存信息</text>
+    </button>
+  </view>
+  
+  <!-- 其他选项 -->
+  <view class="other-options">
+    <view class="option-item">
+      <view class="option-icon">
+        <my-icon type="cog" color="#4b7ffb" size="40"></my-icon>
+      </view>
+      <view class="option-text">设置</view>
+      <view class="option-arrow">
+        <my-icon type="chevron-right" color="#999" size="28"></my-icon>
+      </view>
+    </view>
+    <view class="option-item">
+      <view class="option-icon">
+        <my-icon type="info" color="#4b7ffb" size="40"></my-icon>
+      </view>
+      <view class="option-text">关于</view>
+      <view class="option-arrow">
+        <my-icon type="chevron-right" color="#999" size="28"></my-icon>
+      </view>
+    </view>
+    <view class="option-item">
+      <view class="option-icon">
+        <my-icon type="comment" color="#4b7ffb" size="40"></my-icon>
+      </view>
+      <view class="option-text">反馈</view>
+      <view class="option-arrow">
+        <my-icon type="chevron-right" color="#999" size="28"></my-icon>
+      </view>
+    </view>
+  </view>
+  
+  <!-- BMI 信息弹窗 -->
+  <view class="modal-mask" wx:if="{{showBmiInfo}}" bindtap="closeBmiInfo"></view>
+  <view class="modal-container" wx:if="{{showBmiInfo}}">
+    <view class="modal-header">
+      <text class="modal-title">BMI指数说明</text>
+      <view class="modal-close" bindtap="closeBmiInfo">
+        <my-icon type="times-circle" color="#999" size="32"></my-icon>
+      </view>
+    </view>
+    <view class="modal-content">
+      <view class="bmi-info">
+        <view class="bmi-info-item">
+          <text class="bmi-range">BMI &lt; 18.5</text>
+          <text class="bmi-status">偏瘦</text>
+        </view>
+        <view class="bmi-info-item">
+          <text class="bmi-range">18.5 ≤ BMI &lt; 24</text>
+          <text class="bmi-status">正常</text>
+        </view>
+        <view class="bmi-info-item">
+          <text class="bmi-range">24 ≤ BMI &lt; 28</text>
+          <text class="bmi-status">超重</text>
+        </view>
+        <view class="bmi-info-item">
+          <text class="bmi-range">BMI ≥ 28</text>
+          <text class="bmi-status">肥胖</text>
+        </view>
+      </view>
+      <text class="bmi-desc">BMI(身体质量指数)是国际上常用的衡量人体胖瘦程度的标准，计算公式为：BMI = 体重(kg) / 身高(m)²</text>
+    </view>
+  </view>
+  
+  <!-- 卡路里信息弹窗 -->
+  <view class="modal-mask" wx:if="{{showCaloriesInfo}}" bindtap="closeCaloriesInfo"></view>
+  <view class="modal-container" wx:if="{{showCaloriesInfo}}">
+    <view class="modal-header">
+      <text class="modal-title">热量消耗说明</text>
+      <view class="modal-close" bindtap="closeCaloriesInfo">
+        <my-icon type="times-circle" color="#999" size="32"></my-icon>
+      </view>
+    </view>
+    <view class="modal-content">
+      <text class="calories-desc">
+        基础代谢率(BMR)是指人体在完全静息状态下维持生命活动所需的最低能量消耗。
+        
+        推荐热量摄入根据您的基础代谢率和活动水平计算得出。减重期间，建议摄入热量略低于此值，增肌期间则略高于此值。
+        
+        活动水平说明：
+        - 低活动：久坐不动，几乎不运动
+        - 中度活动：每周进行3-5次中等强度运动
+        - 高活动：每天进行高强度运动或体力劳动
+      </text>
+    </view>
+  </view>
+  
+  <!-- 保存成功提示 -->
+  <view class="success-toast" wx:if="{{showSuccessToast}}">
+    <view class="success-icon">
+      <my-icon type="check-circle" color="#52c41a" size="40"></my-icon>
+    </view>
+    <text class="success-text">保存成功</text>
+  </view>
+</view>

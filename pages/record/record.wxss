@@ -1,0 +1,398 @@
+/* pages/record/record.wxss */
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 120rpx);
+}
+
+.header {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  text-align: center;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.header-title {
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+/* 体重输入区域 */
+.weight-input-container {
+  padding: 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.weight-input-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f5f7fa;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  height: 120rpx; /* 增加输入框高度 */
+}
+
+.weight-input {
+  font-size: 60rpx;
+  font-weight: bold;
+  color: #333;
+  text-align: center;
+  width: 200rpx;
+}
+
+.weight-unit {
+  font-size: 32rpx;
+  color: #666;
+  margin-left: 10rpx;
+}
+
+/* 日期时间选择器 */
+.date-time-selectors {
+  display: flex;
+  justify-content: space-between;
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.date-selector,
+.time-selector {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20rpx;
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+}
+
+.date-selector {
+  margin-right: 20rpx;
+}
+
+.date-text,
+.time-text {
+  font-size: 28rpx;
+  color: #333;
+  margin-left: 10rpx;
+}
+
+/* 其他指标输入区域 */
+.metrics-container {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.metrics-header {
+  margin-bottom: 20rpx;
+}
+
+.metrics-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.metrics-subtitle {
+  font-size: 24rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+
+.metrics-input-group {
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.metric-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.metric-input-box {
+  width: 200rpx;
+  height: 80rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 8rpx;
+}
+
+.metric-input {
+  font-size: 32rpx;
+  color: #333;
+  text-align: center;
+  width: 120rpx;
+}
+
+/* 备注输入区域 */
+.note-container {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.note-header {
+  margin-bottom: 20rpx;
+}
+
+.note-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.note-input-box {
+  background-color: #f5f7fa;
+  border-radius: 12rpx;
+  padding: 20rpx;
+}
+
+.note-input {
+  width: 100%;
+  height: 80rpx;
+  font-size: 28rpx;
+  color: #333;
+}
+
+/* 设备同步区域 */
+.device-container {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.device-info {
+  display: flex;
+  align-items: center;
+}
+
+.device-icon {
+  margin-right: 20rpx;
+}
+
+.device-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.device-name {
+  font-size: 28rpx;
+  color: #333;
+  margin-bottom: 6rpx;
+}
+
+.device-status {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.sync-btn {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 30rpx;
+  background-color: #4b7ffb;
+  border-radius: 8rpx;
+  color: #fff;
+}
+
+.sync-btn my-icon {
+  margin-right: 10rpx; /* 增加图标和文字的间距 */
+}
+
+/* 最近记录区域 */
+.recent-records-container {
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  margin-top: 20rpx;
+}
+
+.recent-records-header {
+  margin-bottom: 20rpx;
+}
+
+.recent-records-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.records-list {
+  max-height: 400rpx;
+  overflow-y: auto;
+}
+
+.record-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.record-date-time {
+  display: flex;
+  align-items: center;
+}
+
+.record-date,
+.record-time {
+  font-size: 26rpx;
+  color: #666;
+  margin: 0 10rpx;
+}
+
+.record-metrics {
+  display: flex;
+  align-items: center;
+}
+
+.record-weight {
+  font-size: 32rpx;
+  font-weight: 500;
+  color: #333;
+  margin-right: 20rpx;
+}
+
+.record-body-fat {
+  font-size: 26rpx;
+  color: #666;
+}
+
+/* 保存按钮 */
+.save-btn-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 20rpx 40rpx calc(20rpx + env(safe-area-inset-bottom));
+  background-color: #fff;
+  box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.save-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 88rpx;
+  background-color: #4b7ffb;
+  border-radius: 12rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.save-btn my-icon {
+  margin-right: 10rpx; /* 增加图标和文字的间距 */
+}
+
+/* 数字键盘 */
+.keyboard-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 100;
+}
+
+.keyboard-container {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #f5f7fa;
+  padding: 20rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+  border-radius: 24rpx 24rpx 0 0;
+  z-index: 101;
+}
+
+.keyboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx;
+}
+
+.keyboard-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.keyboard-close {
+  padding: 10rpx;
+}
+
+.keyboard-rows {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20rpx;
+  padding: 20rpx;
+}
+
+.keyboard-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.keyboard-key {
+  flex: 1;
+  height: 100rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+  border-radius: 12rpx;
+  font-size: 36rpx;
+  font-weight: 500;
+  color: #333;
+  margin: 0 10rpx;
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.05);
+}
+
+.keyboard-key:active {
+  background-color: #f0f0f0;
+}
+
+.delete-key {
+  color: #ff4d4f;
+}
+
+.keyboard-done-row {
+  padding: 20rpx;
+}
+
+.keyboard-done {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 88rpx;
+  background-color: #4b7ffb;
+  border-radius: 12rpx;
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: 500;
+}
+
+.keyboard-done my-icon {
+  margin-right: 10rpx; /* 增加图标和文字的间距 */
+}

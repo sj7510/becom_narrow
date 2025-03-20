@@ -4,7 +4,14 @@
     <view class="userinfo">
       <block wx:if="{{canIUseNicknameComp && !hasUserInfo}}">
         <button class="avatar-wrapper" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
-          <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+          <block wx:if="{{userInfo.avatarUrl && userInfo.avatarUrl.indexOf('/assets/') === 0}}">
+            <view class="avatar-icon">
+              <my-icon type="user" color="#4b7ffb" size="48"></my-icon>
+            </view>
+          </block>
+          <block wx:else>
+            <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+          </block>
         </button>
         <view class="nickname-wrapper">
           <text class="nickname-label">昵称</text>
@@ -16,7 +23,14 @@
         <view wx:else> 请使用2.10.4及以上版本基础库 </view>
       </block>
       <block wx:else>
-        <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        <block wx:if="{{userInfo.avatarUrl && userInfo.avatarUrl.indexOf('/assets/') === 0}}">
+          <view class="avatar-icon userinfo-avatar" bindtap="bindViewTap">
+            <my-icon type="user" color="#4b7ffb" size="48"></my-icon>
+          </view>
+        </block>
+        <block wx:else>
+          <image bindtap="bindViewTap" class="userinfo-avatar" src="{{userInfo.avatarUrl}}" mode="cover"></image>
+        </block>
         <text class="userinfo-nickname">{{userInfo.nickName}}</text>
       </block>
     </view>

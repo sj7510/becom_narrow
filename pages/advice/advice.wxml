@@ -1,0 +1,82 @@
+<!--pages/advice/advice.wxml-->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">健康建议</text>
+  </view>
+  
+  <!-- 标签页 -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 'all' ? 'active' : ''}}" bindtap="switchTab" data-tab="all">
+      <text>全部</text>
+    </view>
+    <view class="tab-item {{currentTab === 'diet' ? 'active' : ''}}" bindtap="switchTab" data-tab="diet">
+      <text>饮食</text>
+    </view>
+    <view class="tab-item {{currentTab === 'exercise' ? 'active' : ''}}" bindtap="switchTab" data-tab="exercise">
+      <text>运动</text>
+    </view>
+    <view class="tab-item {{currentTab === 'rest' ? 'active' : ''}}" bindtap="switchTab" data-tab="rest">
+      <text>休息</text>
+    </view>
+  </view>
+  
+  <!-- 加载提示 -->
+  <view wx:if="{{loading}}" class="loading-container">
+    <view class="loading-icon">
+      <my-icon type="sync" color="#4b7ffb" size="80"></my-icon>
+    </view>
+    <text>加载中...</text>
+  </view>
+  
+  <!-- 建议列表 -->
+  <scroll-view wx:else class="advice-list" scroll-y="true" enable-flex="true">
+    <!-- 空状态 -->
+    <view wx:if="{{adviceList.length === 0}}" class="empty-state">
+      <view class="empty-icon">
+        <my-icon type="lightbulb" color="#4b7ffb" size="80"></my-icon>
+      </view>
+      <text>暂无相关建议</text>
+    </view>
+    
+    <view wx:else class="advice-cards">
+      <view class="advice-card" wx:for="{{adviceList}}" wx:key="id" bindtap="viewAdviceDetail" data-index="{{index}}">
+        <view class="advice-image-container">
+          <view wx:if="{{item.type === 'diet'}}" class="advice-icon">
+            <my-icon type="utensils" color="#4b7ffb" size="80"></my-icon>
+          </view>
+          <view wx:elif="{{item.type === 'exercise'}}" class="advice-icon">
+            <my-icon type="running" color="#4b7ffb" size="80"></my-icon>
+          </view>
+          <view wx:elif="{{item.type === 'rest'}}" class="advice-icon">
+            <my-icon type="bed" color="#4b7ffb" size="80"></my-icon>
+          </view>
+        </view>
+        <view class="advice-content">
+          <view class="advice-type">
+            <text wx:if="{{item.type === 'diet'}}">饮食</text>
+            <text wx:elif="{{item.type === 'exercise'}}">运动</text>
+            <text wx:elif="{{item.type === 'rest'}}">休息</text>
+            <text wx:else>其他</text>
+          </view>
+          <text class="advice-title">{{item.title}}</text>
+          <text class="advice-subtitle">{{item.subtitle}}</text>
+          <view class="advice-actions">
+            <view class="action-item like {{item.isLiked ? 'active' : ''}}" catchtap="toggleLike" data-index="{{index}}">
+              <view class="action-icon">
+                <my-icon type="heart" color="{{item.isLiked ? '#ff5252' : '#999'}}" size="28"></my-icon>
+              </view>
+              <text class="action-text">{{item.likes}}</text>
+            </view>
+            <view class="action-item share" catchtap="shareAdvice" data-index="{{index}}">
+              <view class="action-icon">
+                <my-icon type="share" color="#4b7ffb" size="28"></my-icon>
+              </view>
+              <text class="action-text">分享</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

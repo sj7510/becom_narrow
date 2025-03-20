@@ -1,0 +1,452 @@
+/* pages/home/home.wxss */
+:root {
+  --primary-color: #4b7ffb;
+  --primary-color-dark: #3b6fe6;
+  --success-color: #42b883;
+  --danger-color: #ff5252;
+  --gray-100: #f7f7f7;
+  --gray-200: #edf2f7;
+  --gray-300: #e2e8f0;
+  --gray-400: #cbd5e0;
+  --gray-500: #a0aec0;
+  --gray-600: #718096;
+  --gray-700: #4a5568;
+  --gray-800: #2d3748;
+  --gray-900: #1a202c;
+  --font-size-xs: 24rpx;
+  --font-size-sm: 28rpx;
+  --font-size-md: 32rpx;
+  --font-size-lg: 36rpx;
+  --font-size-xl: 40rpx;
+  --border-radius-sm: 8rpx;
+  --border-radius-md: 12rpx;
+  --border-radius-lg: 16rpx;
+  --border-radius-full: 9999rpx;
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+}
+
+.container {
+  background-color: var(--gray-100);
+  min-height: 100vh;
+  padding-bottom: 120rpx;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30rpx 40rpx;
+  background-color: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.logo {
+  font-size: var(--font-size-xl);
+  font-weight: bold;
+  color: var(--primary-color);
+  letter-spacing: 2rpx;
+}
+
+.notification-btn {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background-color: var(--gray-100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.notification-btn:active {
+  transform: scale(0.95);
+  background-color: var(--gray-200);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 15rpx;
+  right: 15rpx;
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background-color: var(--danger-color);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0.7);
+  }
+  70% {
+    transform: scale(1);
+    box-shadow: 0 0 0 10rpx rgba(255, 82, 82, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 82, 82, 0);
+  }
+}
+
+.loading-container {
+  padding: 40rpx;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 60vh;
+}
+
+.loading-icon {
+  animation: rotate 2s linear infinite;
+  margin-bottom: 20rpx;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: var(--gray-500);
+  font-size: var(--font-size-md);
+}
+
+/* BMI卡片 */
+.bmi-card {
+  margin: 30rpx;
+  padding: 40rpx;
+  background: linear-gradient(
+    135deg,
+    var(--primary-color),
+    var(--primary-color-dark)
+  );
+  border-radius: var(--border-radius-lg);
+  color: white;
+  box-shadow: var(--shadow-md);
+  transform: translateY(0);
+  transition: transform 0.3s ease;
+}
+
+.bmi-card:active {
+  transform: translateY(2rpx);
+}
+
+.bmi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.bmi-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+}
+
+.bmi-info {
+  font-size: var(--font-size-sm);
+  opacity: 0.9;
+}
+
+.bmi-content {
+  margin-bottom: 30rpx;
+}
+
+.bmi-value {
+  font-size: 80rpx;
+  font-weight: bold;
+  margin-bottom: 10rpx;
+  text-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.bmi-status {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+}
+
+.bmi-range {
+  height: 12rpx;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: var(--border-radius-full);
+  position: relative;
+  margin-bottom: 10rpx;
+  overflow: hidden;
+}
+
+.bmi-marker {
+  position: absolute;
+  width: 24rpx;
+  height: 24rpx;
+  border-radius: 50%;
+  background: white;
+  border: 4rpx solid var(--primary-color);
+  top: -6rpx;
+  transform: translateX(-50%);
+  box-shadow: 0 2rpx 4rpx rgba(0, 0, 0, 0.2);
+  transition: left 0.3s ease;
+}
+
+.bmi-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-size-xs);
+  opacity: 0.8;
+}
+
+/* 体重卡片 */
+.weight-card {
+  margin: 30rpx;
+  padding: 40rpx;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.weight-card:active {
+  transform: translateY(2rpx);
+  box-shadow: var(--shadow-md);
+}
+
+.weight-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.weight-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--gray-800);
+}
+
+.weight-date {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+}
+
+.weight-content {
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: 30rpx;
+}
+
+.weight-value {
+  font-size: 70rpx;
+  font-weight: bold;
+  color: var(--gray-800);
+  margin-right: 20rpx;
+  line-height: 1;
+}
+
+.weight-unit {
+  font-size: var(--font-size-md);
+  font-weight: normal;
+  color: var(--gray-600);
+  margin-left: 10rpx;
+}
+
+.weight-change {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+  padding: 8rpx 16rpx;
+  border-radius: var(--border-radius-full);
+  background-color: var(--gray-100);
+}
+
+.weight-change.increase {
+  color: var(--danger-color);
+  background-color: rgba(255, 82, 82, 0.1);
+}
+
+.weight-change.decrease {
+  color: var(--success-color);
+  background-color: rgba(66, 184, 131, 0.1);
+}
+
+.weight-chart-container {
+  margin: 40rpx 0 20rpx;
+  height: 300rpx;
+  position: relative;
+}
+
+.chart-container {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 40rpx;
+}
+
+.chart-column {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  flex: 1;
+}
+
+.chart-bar {
+  width: 16rpx;
+  min-height: 4rpx;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius-full);
+  margin-bottom: 10rpx;
+  transition: height 0.3s ease;
+}
+
+.chart-label {
+  font-size: var(--font-size-xs);
+  color: var(--gray-600);
+}
+
+.view-details {
+  text-align: center;
+  color: var(--primary-color);
+  font-size: var(--font-size-sm);
+  padding: 10rpx 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4rpx;
+}
+
+/* 目标卡片 */
+.goal-card {
+  margin: 30rpx;
+  padding: 40rpx;
+  background: white;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: all 0.3s ease;
+}
+
+.goal-card:active {
+  transform: translateY(2rpx);
+  box-shadow: var(--shadow-md);
+}
+
+.goal-header {
+  margin-bottom: 30rpx;
+}
+
+.goal-title {
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 10rpx;
+}
+
+.goal-subtitle {
+  font-size: var(--font-size-sm);
+  color: var(--gray-600);
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.goal-progress {
+  margin-bottom: 30rpx;
+  display: flex;
+  align-items: center;
+  gap: 20rpx;
+}
+
+.progress-container {
+  flex: 1;
+  height: 16rpx;
+  background: var(--gray-200);
+  border-radius: var(--border-radius-full);
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    var(--primary-color),
+    var(--primary-color-dark)
+  );
+  border-radius: var(--border-radius-full);
+  transition: width 0.3s ease;
+}
+
+.progress-text {
+  font-size: var(--font-size-md);
+  font-weight: bold;
+  color: var(--primary-color);
+  min-width: 70rpx;
+  text-align: right;
+}
+
+.goal-detail {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30rpx;
+  padding-top: 30rpx;
+  border-top: 2rpx solid var(--gray-200);
+}
+
+.goal-item {
+  text-align: center;
+  flex: 1;
+}
+
+.goal-item-label {
+  font-size: var(--font-size-xs);
+  color: var(--gray-600);
+  margin-bottom: 10rpx;
+}
+
+.goal-item-value {
+  font-size: var(--font-size-md);
+  font-weight: 500;
+  color: var(--gray-800);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6rpx;
+}
+
+/* 快捷操作按钮 */
+.float-btn {
+  position: fixed;
+  right: 40rpx;
+  bottom: 140rpx;
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: var(--primary-color);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-lg);
+  transition: all 0.3s ease;
+  z-index: 100;
+}
+
+.float-btn:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-md);
+}

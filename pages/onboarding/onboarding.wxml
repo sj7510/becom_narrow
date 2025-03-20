@@ -1,0 +1,202 @@
+<view class="onboarding-container">
+  <!-- 头部 -->
+  <view class="onboarding-header">
+    <view class="logo">变窄</view>
+    <view class="app-slogan">科学管理体重，健康生活每一天</view>
+  </view>
+  
+  <!-- 内容区 -->
+  <view class="onboarding-content">
+    <!-- 步骤指示器 -->
+    <view class="step-indicator">
+      <view class="step {{currentStep >= 1 ? 'active' : ''}}"></view>
+      <view class="step {{currentStep >= 2 ? 'active' : ''}}"></view>
+      <view class="step {{currentStep >= 3 ? 'active' : ''}}"></view>
+    </view>
+    
+    <!-- 步骤1：基本信息 -->
+    <block wx:if="{{currentStep === 1}}">
+      <view class="form-title">欢迎使用变窄</view>
+      <view class="form-subtitle">请完善您的基本信息</view>
+      
+      <view class="avatar-wrapper">
+        <button class="avatar-btn" open-type="chooseAvatar" bind:chooseavatar="onChooseAvatar">
+          <block wx:if="{{userInfo.avatarUrl && userInfo.avatarUrl.indexOf('/assets/') === 0}}">
+            <view class="avatar-icon">
+              <my-icon type="user" color="#4b7ffb" size="48"></my-icon>
+            </view>
+          </block>
+          <block wx:else>
+            <image class="avatar" src="{{userInfo.avatarUrl}}"></image>
+          </block>
+          <view class="avatar-edit-icon">
+            <text class="wx-icon">✎</text>
+          </view>
+        </button>
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">昵称</text>
+        <input class="form-input" type="nickname" placeholder="请输入您的昵称" value="{{userInfo.nickName}}" bindinput="onInputNickname" />
+      </view>
+      
+      <view class="form-group">
+        <view class="form-label">性别</view>
+        <view class="gender-selector">
+          <view class="gender-option {{userInfo.gender === 1 ? 'active' : ''}}" bindtap="onSelectGender" data-gender="1">
+            <text class="wx-icon">♂</text>
+            <text>男</text>
+          </view>
+          <view class="gender-option {{userInfo.gender === 2 ? 'active' : ''}}" bindtap="onSelectGender" data-gender="2">
+            <text class="wx-icon">♀</text>
+            <text>女</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">身高 (cm)</text>
+        <input class="form-input" type="digit" placeholder="请输入您的身高" value="{{userInfo.height}}" bindinput="onInputHeight" />
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">出生日期</text>
+        <picker mode="date" value="{{userInfo.birthday}}" start="1940-01-01" end="2020-12-31" bindchange="onBirthdayChange">
+          <view class="form-input picker">
+            <text class="wx-icon" style="margin-right: 10rpx; color: var(--gray-500);">📅</text>
+            <text>{{userInfo.birthday}}</text>
+          </view>
+        </picker>
+      </view>
+    </block>
+    
+    <!-- 步骤2：体重与目标 -->
+    <block wx:if="{{currentStep === 2}}">
+      <view class="form-title">您的体重和目标</view>
+      <view class="form-subtitle">设定合理的目标，我们将助您达成</view>
+      
+      <view class="form-group">
+        <text class="form-label">当前体重 (kg)</text>
+        <input class="form-input" type="digit" placeholder="请输入您的当前体重" value="{{userInfo.initialWeight}}" bindinput="onInputInitialWeight" />
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">您的健康目标</text>
+        <view class="goal-options">
+          <view class="goal-option {{userInfo.goalType === 'reduce' ? 'selected' : ''}}" bindtap="onSelectGoal" data-goal="reduce">
+            <view class="goal-icon">
+              <text class="wx-icon">↓</text>
+            </view>
+            <view class="goal-info">
+              <view class="goal-title">减重</view>
+              <view class="goal-desc">降低体重，改善身材</view>
+            </view>
+            <view class="goal-radio">
+              <view class="goal-radio-inner"></view>
+            </view>
+          </view>
+          
+          <view class="goal-option {{userInfo.goalType === 'maintain' ? 'selected' : ''}}" bindtap="onSelectGoal" data-goal="maintain">
+            <view class="goal-icon">
+              <text class="wx-icon">-</text>
+            </view>
+            <view class="goal-info">
+              <view class="goal-title">维持</view>
+              <view class="goal-desc">保持现有体重，改善身体成分</view>
+            </view>
+            <view class="goal-radio">
+              <view class="goal-radio-inner"></view>
+            </view>
+          </view>
+          
+          <view class="goal-option {{userInfo.goalType === 'increase' ? 'selected' : ''}}" bindtap="onSelectGoal" data-goal="increase">
+            <view class="goal-icon">
+              <text class="wx-icon">↑</text>
+            </view>
+            <view class="goal-info">
+              <view class="goal-title">增肌</view>
+              <view class="goal-desc">增加肌肉量，提高力量</view>
+            </view>
+            <view class="goal-radio">
+              <view class="goal-radio-inner"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">目标体重 (kg)</text>
+        <input class="form-input" type="digit" placeholder="请输入您的目标体重" value="{{userInfo.targetWeight}}" bindinput="onInputTargetWeight" />
+      </view>
+      
+      <view class="form-group">
+        <text class="form-label">目标达成日期</text>
+        <picker mode="date" value="{{userInfo.targetDate}}" start="{{userInfo.targetDate}}" bindchange="onTargetDateChange">
+          <view class="form-input picker">
+            <text class="wx-icon" style="margin-right: 10rpx; color: var(--gray-500);">📅</text>
+            <text>{{userInfo.targetDate}}</text>
+          </view>
+        </picker>
+      </view>
+    </block>
+    
+    <!-- 步骤3：确认信息 -->
+    <block wx:if="{{currentStep === 3}}">
+      <view class="form-title">确认您的信息</view>
+      <view class="form-subtitle">您可以随时在个人中心修改这些信息</view>
+      
+      <view class="summary-container">
+        <view class="summary-item">
+          <text class="summary-label">身高</text>
+          <text class="summary-value">{{userInfo.height}} cm</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">当前体重</text>
+          <text class="summary-value">{{userInfo.initialWeight}} kg</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">目标</text>
+          <text class="summary-value">{{userInfo.goalType === 'reduce' ? '减重' : (userInfo.goalType === 'maintain' ? '维持' : '增肌')}}</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">目标体重</text>
+          <text class="summary-value">{{userInfo.targetWeight}} kg</text>
+        </view>
+        <view class="summary-item">
+          <text class="summary-label">目标日期</text>
+          <text class="summary-value">{{userInfo.targetDate}}</text>
+        </view>
+      </view>
+      
+      <view class="tips-container">
+        <view class="tip-item">
+          <view class="tip-icon">
+            <text class="wx-icon">i</text>
+          </view>
+          <view class="tip-text">
+            每日记录体重可以更好地追踪进度
+          </view>
+        </view>
+        <view class="tip-item">
+          <view class="tip-icon">
+            <text class="wx-icon">i</text>
+          </view>
+          <view class="tip-text">
+            身体数据仅存储在本地，我们保护您的隐私
+          </view>
+        </view>
+      </view>
+    </block>
+    
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <button class="btn-back" wx:if="{{currentStep > 1}}" bindtap="onPrevStep">
+        <text class="wx-icon" style="margin-right: 8rpx;">←</text>上一步
+      </button>
+      <button class="btn-next" bindtap="onNextStep">
+        {{currentStep < totalSteps ? '下一步' : '开始使用'}}
+        <text wx:if="{{currentStep < totalSteps}}" class="wx-icon" style="margin-left: 8rpx;">→</text>
+      </button>
+    </view>
+  </view>
+</view> 
