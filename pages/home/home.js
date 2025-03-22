@@ -6,17 +6,34 @@ Page({
    * 页面的初始数据
    */
   data: {
-    userInfo: null,
-    latestWeight: null,
-    weightChange: null,
-    weightChangeType: '', // 'increase' 或 'decrease'
-    bmi: null,
-    bmiStatus: null,
+    userInfo: {
+      height: 170,
+      nickName: '用户',
+      initialWeight: 70,
+      targetWeight: 65,
+      targetDate: api.getTodayDate(),
+      goalType: 'reduce'
+    },
+    latestWeight: {
+      weight: 0,
+      date: api.getTodayDate(),
+      bodyfat: 0
+    },
+    weightChange: 0,
+    weightChangeType: 'decrease', // 'increase' 或 'decrease'
+    bmi: '0.0',
+    bmiStatus: {
+      status: '数据加载中',
+      color: '#808080'
+    },
     records: [],
     loading: true,
-    chartData: [],
+    chartData: [
+      { date: '加载中', weight: 0 }
+    ],
     goalProgress: 0,
-    isDefaultAvatar: false
+    isDefaultAvatar: true,
+    hasNotification: false
   },
 
   /**
@@ -50,22 +67,21 @@ Page({
    * 加载用户信息
    */
   loadUserInfo() {
-    wx.showLoading({
-      title: '加载中',
-    });
+    this.setData({ loading: true });
 
-    api.getUserInfo().then(userInfo => {
-      wx.hideLoading();
+    return api.getUserInfo().then(userInfo => {
       this.setData({
         userInfo: userInfo,
         isDefaultAvatar: api.isDefaultAvatar(userInfo.avatarUrl)
       });
+      return userInfo;
     }).catch(err => {
-      wx.hideLoading();
+      console.error('获取用户信息失败:', err);
       wx.showToast({
         title: '获取用户信息失败',
         icon: 'none'
       });
+      return this.data.userInfo; // 返回默认值
     });
   },
 
@@ -73,32 +89,26 @@ Page({
    * 加载体重记录
    */
   loadWeightRecords() {
-    wx.showLoading({
-      title: '加载中',
-    });
+    this.setData({ loading: true });
 
-    api.getWeightRecords('week').then(records => {
-      wx.hideLoading();
-
+    return api.getWeightRecords('week').then(records => {
       if (records && records.length > 0) {
-        // 排序记录（从新到旧）
-        records.sort((a, b) => new Date(b.date) - new Date(a.date));
-        
         // 获取最新记录
         const latestRecord = records[0];
         
         // 计算变化（如果有上一条记录）
-        let weightChange = null;
-        let weightChangeType = '';
+        let weightChange = 0;
+        let weightChangeType = 'decrease';
         
         if (records.length > 1) {
           const prevRecord = records[1];
           weightChange = (latestRecord.weight - prevRecord.weight).toFixed(1);
           weightChangeType = weightChange > 0 ? 'increase' : (weightChange < 0 ? 'decrease' : '');
+          weightChange = Math.abs(weightChange);
         }
         
-        // 计算BMI
-        const bmi = api.calculateBMI(latestRecord.weight, this.data.userInfo?.height || 170);
+        // 计算BMI（只有在用户信息加载完成后才计算）
+        const bmi = api.calculateBMI(latestRecord.weight, this.data.userInfo?.height);
         const bmiStatus = api.getBMIStatus(bmi);
         
         // 为图表准备数据
@@ -110,7 +120,7 @@ Page({
         this.setData({
           records: records,
           latestWeight: latestRecord,
-          weightChange: Math.abs(weightChange),
+          weightChange: weightChange,
           weightChangeType: weightChangeType,
           bmi: bmi,
           bmiStatus: bmiStatus,
@@ -119,12 +129,25 @@ Page({
           loading: false
         });
       } else {
+        // 没有记录时设置默认值
+        const height = this.data.userInfo?.height || 170;
+        const weight = this.data.userInfo?.initialWeight || 70;
+        const bmi = api.calculateBMI(weight, height);
+        const bmiStatus = api.getBMIStatus(bmi);
+        
         this.setData({
-          loading: false
+          bmi: bmi,
+          bmiStatus: bmiStatus,
+          loading: false,
+          chartData: [
+            { date: '暂无数据', weight: 0 }
+          ]
         });
       }
+      
+      return records;
     }).catch(err => {
-      wx.hideLoading();
+      console.error('获取记录失败:', err);
       this.setData({
         loading: false
       });
@@ -132,6 +155,7 @@ Page({
         title: '获取记录失败',
         icon: 'none'
       });
+      return [];
     });
   },
 
@@ -139,6 +163,10 @@ Page({
    * 准备图表数据
    */
   prepareChartData(records) {
+    if (!records || records.length === 0) {
+      return [{ date: '暂无数据', weight: 0 }];
+    }
+
     // 最多显示7天数据，需要倒序排列（从旧到新）
     const chartRecords = records.slice().sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-7);
     
@@ -159,7 +187,7 @@ Page({
    */
   calculateGoalProgress(currentWeight) {
     const { userInfo } = this.data;
-    if (!userInfo) return 0;
+    if (!userInfo || !currentWeight) return 0;
     
     const { initialWeight, targetWeight, goalType } = userInfo;
     
@@ -171,9 +199,11 @@ Page({
       if (currentWeight <= targetWeight) return 100;
       
       const totalReduction = initialWeight - targetWeight;
+      if (totalReduction <= 0) return 0; // 避免除以0
+      
       const currentReduction = initialWeight - currentWeight;
       
-      return Math.min(100, Math.round((currentReduction / totalReduction) * 100));
+      return Math.min(100, Math.max(0, Math.round((currentReduction / totalReduction) * 100)));
     }
     
     // 增肌目标
@@ -181,9 +211,11 @@ Page({
       if (currentWeight >= targetWeight) return 100;
       
       const totalIncrease = targetWeight - initialWeight;
+      if (totalIncrease <= 0) return 0; // 避免除以0
+      
       const currentIncrease = currentWeight - initialWeight;
       
-      return Math.min(100, Math.round((currentIncrease / totalIncrease) * 100));
+      return Math.min(100, Math.max(0, Math.round((currentIncrease / totalIncrease) * 100)));
     }
     
     return 0;
@@ -215,6 +247,8 @@ Page({
       this.loadUserInfo(),
       this.loadWeightRecords()
     ]).then(() => {
+      wx.stopPullDownRefresh();
+    }).catch(() => {
       wx.stopPullDownRefresh();
     });
   }

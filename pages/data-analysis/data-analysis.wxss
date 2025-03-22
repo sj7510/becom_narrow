@@ -1,0 +1,41 @@
+.container {
+  min-height: 100vh;
+  background-color: #f9f9f9;
+  padding: 12rpx; /* 减小内边距 */
+  padding-bottom: calc(env(safe-area-inset-bottom) + 90rpx);
+}
+
+.header {
+  position: sticky;
+  top: 0;
+  height: 80rpx; /* 减小头部高度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f9f9f9;
+  z-index: 10;
+}
+
+.title {
+  font-size: 38rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  padding: 16rpx 12rpx; /* 减小内边距 */
+  margin-bottom: 12rpx; /* 减小底部边距 */
+  background-color: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}
+
+.chart-card {
+  padding: 16rpx; /* 减小内边距 */
+  margin-bottom: 12rpx; /* 减小底部边距 */
+  background-color: #fff;
+  border-radius: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+}

@@ -24,6 +24,18 @@ page {
   --gray-800: #1f2937;
   --gray-900: #111827;
 
+  --page-padding-sm: 12rpx;
+  --page-padding: 16rpx;
+  --page-padding-lg: 20rpx;
+  --card-margin: 12rpx;
+  --card-padding-sm: 16rpx;
+  --card-padding: 20rpx;
+  --card-padding-lg: 24rpx;
+
+  font-size: 28rpx;
+
+  box-sizing: border-box;
+
   --font-size-xs: 20rpx;
   --font-size-sm: 24rpx;
   --font-size-md: 28rpx;
@@ -59,7 +71,6 @@ page {
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Helvetica,
     Segoe UI, Arial, Roboto, "PingFang SC", "miui", "Hiragino Sans GB",
     "Microsoft Yahei", sans-serif;
-  font-size: var(--font-size-md);
   line-height: 1.5;
 }
 
@@ -73,7 +84,8 @@ page {
   font-size: var(--font-size-md);
   color: var(--gray-800);
   padding-bottom: calc(100rpx + env(safe-area-inset-bottom));
-  padding: 32rpx;
+  padding: var(--page-padding);
+  width: 100%;
 }
 
 /* 通用头部样式 */
@@ -98,11 +110,11 @@ page {
 
 /* 通用卡片样式 */
 .card {
-  background: white;
-  border-radius: var(--border-radius-lg);
-  margin: var(--spacing-4);
-  padding: var(--spacing-4);
-  box-shadow: var(--shadow-sm);
+  padding: var(--card-padding);
+  margin: var(--card-margin);
+  border-radius: 16rpx;
+  background-color: #fff;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
 }
 
 .card-header {

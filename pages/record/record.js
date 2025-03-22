@@ -11,14 +11,10 @@ Page({
     note: '',
     date: '',
     time: '',
+    device: null,
+    savedRecords: [],
     showKeyboard: false,
-    currentInput: 'weight', // 'weight' 或 'bodyFat'
-    device: {
-      connected: false,
-      name: '云康宝体脂秤',
-      lastSync: '今天 08:15'
-    },
-    savedRecords: []
+    currentInput: ''
   },
 
   /**
@@ -26,16 +22,22 @@ Page({
    */
   onLoad(options) {
     // 初始化日期为今天
-    const now = new Date();
-    const today = this.formatDate(now);
-    const currentTime = this.formatTime(now);
+    const today = new Date();
+    const formattedDate = this.formatDate(today);
+    const formattedTime = this.formatTime(today);
     
+    // 获取设备信息
     this.setData({
-      date: today,
-      time: currentTime
+      date: formattedDate,
+      time: formattedTime,
+      weight: '0.0', // 设置默认体重显示值
+      device: {
+        name: '小米体脂秤2',
+        lastSync: '今天 08:30'
+      }
     });
     
-    // 加载最近的记录
+    // 加载最近记录
     this.loadRecentRecords();
   },
 
@@ -110,12 +112,12 @@ Page({
       }
     } else {
       // 数字键
-      // 如果已经有小数点，则限制小数点后最多1位
-      if (currentValue.includes('.') && currentValue.split('.')[1].length >= 1) {
+      // 如果已经有小数点，则限制小数点后最多2位
+      if (currentValue.includes('.') && currentValue.split('.')[1].length >= 2) {
         return;
       }
       
-      // 限制整数部分最多3位数字
+      // 限制整数部分最多3位数字（最大允许显示999.99）
       if (!currentValue.includes('.') && currentValue.length >= 3) {
         return;
       }

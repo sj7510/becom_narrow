@@ -4,12 +4,12 @@
   bottom: 0;
   left: 0;
   right: 0;
-  height: 120rpx;
+  height: 92rpx;
   background: white;
   display: flex;
   padding-bottom: env(safe-area-inset-bottom);
-  box-shadow: 0 -2rpx 12rpx rgba(0, 0, 0, 0.08);
-  z-index: 100;
+  box-shadow: 0 -1rpx 6rpx rgba(0, 0, 0, 0.06);
+  z-index: 9999;
 }
 
 .tab-bar-border {
@@ -29,23 +29,23 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  padding: 10rpx 0;
+  padding: 4rpx 0;
   position: relative;
 }
 
 .tab-bar-item.selected::after {
   content: "";
   position: absolute;
-  bottom: 12rpx;
+  bottom: 6rpx;
   left: 50%;
   transform: translateX(-50%);
   width: 40rpx;
-  height: 6rpx;
+  height: 4rpx;
   background-color: #4b7ffb;
-  border-radius: 3rpx;
+  border-radius: 2rpx;
 }
 
 .text {
-  font-size: 24rpx;
-  margin-top: 8rpx;
+  font-size: 20rpx;
+  margin-top: 2rpx;
 }

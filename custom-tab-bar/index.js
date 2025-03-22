@@ -36,6 +36,24 @@ Component({
     }]
   },
 
+  lifetimes: {
+    attached: function() {
+      // 在组件实例进入页面节点树时执行
+      this.updateSelected();
+    },
+    ready: function() {
+      // 在组件在视图层布局完成后执行
+      this.updateSelected();
+    }
+  },
+
+  pageLifetimes: {
+    show: function() {
+      // 页面被展示时更新选中状态
+      this.updateSelected();
+    }
+  },
+
   /**
    * 组件的方法列表
    */
@@ -51,6 +69,22 @@ Component({
       this.setData({
         selected: data.index
       });
+    },
+
+    updateSelected: function() {
+      const pages = getCurrentPages();
+      const currentPage = pages[pages.length - 1];
+      const route = currentPage ? currentPage.route : null;
+      
+      if (route) {
+        const index = this.data.list.findIndex(item => {
+          return route.indexOf(item.pagePath.substring(1)) > -1;
+        });
+        
+        if (index !== -1 && index !== this.data.selected) {
+          this.setData({ selected: index });
+        }
+      }
     }
   }
 }); 

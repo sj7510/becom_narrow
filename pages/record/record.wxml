@@ -7,23 +7,24 @@
   <!-- 体重输入区域 -->
   <view class="weight-input-container">
     <view class="weight-input-box" bindtap="showNumKeyboard" data-type="weight">
-      <input type="digit" class="weight-input" value="{{weight}}" disabled placeholder="0.0" />
-      <text class="weight-unit">kg</text>
+      <view class="weight-input-wrapper">
+        <text class="weight-input">{{weight}}</text>
+        <text class="weight-unit">kg</text>
+      </view>
     </view>
   </view>
   
-  <!-- 日期时间选择器 -->
+  <!-- 日期时间选择器，改为更宽的布局 -->
   <view class="date-time-selectors">
-    <picker mode="date" value="{{date}}" bindchange="onDateChange">
+    <picker mode="date" value="{{date}}" bindchange="onDateChange" style="flex: 1;">
       <view class="date-selector">
-        <my-icon type="calendar" color="#4b7ffb" size="40"></my-icon>
+        <my-icon type="calendar" color="#4b7ffb" size="36"></my-icon>
         <text class="date-text">{{date}}</text>
       </view>
     </picker>
-    
-    <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+    <picker mode="time" value="{{time}}" bindchange="onTimeChange" style="flex: 1;">
       <view class="time-selector">
-        <my-icon type="clock" color="#4b7ffb" size="40"></my-icon>
+        <my-icon type="clock" color="#4b7ffb" size="36"></my-icon>
         <text class="time-text">{{time}}</text>
       </view>
     </picker>

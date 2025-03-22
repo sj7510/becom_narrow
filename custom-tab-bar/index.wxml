@@ -7,7 +7,7 @@
         data-path="{{item.pagePath}}" 
         data-index="{{index}}" 
         bindtap="switchTab">
-    <my-icon type="{{item.iconClass}}" color="{{selected === index ? selectedColor : color}}" size="48"></my-icon>
+    <my-icon type="{{item.iconClass}}" color="{{selected === index ? selectedColor : color}}" size="36"></my-icon>
     <view class="text" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</view>
   </view>
 </view> 

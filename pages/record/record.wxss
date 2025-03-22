@@ -1,12 +1,13 @@
 /* pages/record/record.wxss */
 .container {
   min-height: 100vh;
+  padding: 0 16rpx;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 100rpx);
   background-color: #f9f9f9;
-  padding-bottom: calc(env(safe-area-inset-bottom) + 120rpx);
 }
 
 .header {
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
   text-align: center;
   box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
@@ -20,9 +21,9 @@
 
 /* 体重输入区域 */
 .weight-input-container {
-  padding: 40rpx;
+  padding: 30rpx 20rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
 }
 
 .weight-input-box {
@@ -31,31 +32,44 @@
   justify-content: center;
   background-color: #f5f7fa;
   border-radius: 16rpx;
-  padding: 30rpx;
-  height: 120rpx; /* 增加输入框高度 */
+  padding: 40rpx 30rpx;
+  height: 200rpx; /* 显著增加输入框高度 */
+  margin: 20rpx 0;
+  box-shadow: inset 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  border: 2rpx solid #e2e8f0;
+  position: relative;
+}
+
+.weight-input-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
 .weight-input {
-  font-size: 60rpx;
+  font-size: 80rpx; /* 调整字体大小 */
   font-weight: bold;
   color: #333;
   text-align: center;
-  width: 200rpx;
+  line-height: 1.2; /* 增加行高确保数字完全显示 */
 }
 
 .weight-unit {
-  font-size: 32rpx;
+  font-size: 40rpx;
   color: #666;
-  margin-left: 10rpx;
+  margin-left: 16rpx;
+  font-weight: 500;
 }
 
 /* 日期时间选择器 */
 .date-time-selectors {
   display: flex;
   justify-content: space-between;
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
 }
 
 .date-selector,
@@ -82,9 +96,9 @@
 
 /* 其他指标输入区域 */
 .metrics-container {
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
 }
 
 .metrics-header {
@@ -139,9 +153,9 @@
 
 /* 备注输入区域 */
 .note-container {
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
 }
 
 .note-header {
@@ -169,9 +183,9 @@
 
 /* 设备同步区域 */
 .device-container {
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -202,24 +216,31 @@
   color: #999;
 }
 
+/* 设备同步区域按钮 */
 .sync-btn {
+  background-color: #4b7ffb;
+  color: #fff;
+  font-size: 28rpx;
+  border-radius: 12rpx;
+  padding: 0 30rpx;
+  height: 80rpx;
   display: flex;
   align-items: center;
-  padding: 16rpx 30rpx;
-  background-color: #4b7ffb;
-  border-radius: 8rpx;
-  color: #fff;
+  justify-content: center;
+  border: none;
+  line-height: 1;
 }
 
 .sync-btn my-icon {
-  margin-right: 10rpx; /* 增加图标和文字的间距 */
+  margin-right: 12rpx; /* 增加图标与文字的间距 */
 }
 
 /* 最近记录区域 */
 .recent-records-container {
-  padding: 30rpx 40rpx;
+  padding: 20rpx 20rpx 40rpx;
   background-color: #fff;
-  margin-top: 20rpx;
+  margin-top: 12rpx;
+  margin-bottom: 120rpx;
 }
 
 .recent-records-header {
@@ -233,7 +254,7 @@
 }
 
 .records-list {
-  max-height: 400rpx;
+  max-height: 300rpx;
   overflow-y: auto;
 }
 
@@ -276,30 +297,36 @@
 
 /* 保存按钮 */
 .save-btn-container {
+  padding: 12rpx 20rpx;
   position: fixed;
+  bottom: calc(92rpx + env(safe-area-inset-bottom));
   left: 0;
   right: 0;
-  bottom: 0;
-  padding: 20rpx 40rpx calc(20rpx + env(safe-area-inset-bottom));
   background-color: #fff;
-  box-shadow: 0 -2rpx 8rpx rgba(0, 0, 0, 0.05);
+  box-shadow: 0 -1rpx 6rpx rgba(0, 0, 0, 0.06);
+  z-index: 10;
 }
 
 .save-btn {
+  background-color: #4b7ffb;
+  color: #fff;
+  font-size: 30rpx;
+  font-weight: 500;
+  height: 76rpx;
+  border-radius: 38rpx;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
-  height: 88rpx;
-  background-color: #4b7ffb;
-  border-radius: 12rpx;
-  color: #fff;
-  font-size: 32rpx;
-  font-weight: 500;
+  border: none;
+  line-height: 1;
 }
 
 .save-btn my-icon {
-  margin-right: 10rpx; /* 增加图标和文字的间距 */
+  margin-right: 16rpx; /* 增加图标与文字的间距 */
+}
+
+.save-btn::after {
+  border: none;
 }
 
 /* 数字键盘 */
