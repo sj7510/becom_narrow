@@ -11,7 +11,6 @@ Page({
     note: '',
     date: '',
     time: '',
-    device: null,
     savedRecords: [],
     showKeyboard: false,
     currentInput: ''
@@ -26,15 +25,10 @@ Page({
     const formattedDate = this.formatDate(today);
     const formattedTime = this.formatTime(today);
     
-    // 获取设备信息
     this.setData({
       date: formattedDate,
       time: formattedTime,
-      weight: '0.0', // 设置默认体重显示值
-      device: {
-        name: '小米体脂秤2',
-        lastSync: '今天 08:30'
-      }
+      weight: '0.0' // 设置默认体重显示值
     });
     
     // 加载最近记录
@@ -150,7 +144,7 @@ Page({
       time: e.detail.value
     });
   },
-
+  
   /**
    * 备注输入处理
    */
@@ -159,45 +153,15 @@ Page({
       note: e.detail.value
     });
   },
-
-  /**
-   * 同步设备数据
-   */
-  syncDevice() {
-    wx.showLoading({
-      title: '同步中...',
-    });
-    
-    // 模拟同步延迟
-    setTimeout(() => {
-      wx.hideLoading();
-      
-      // 模拟获取到的数据
-      this.setData({
-        weight: '68.2',
-        bodyFat: '23.5',
-        device: {
-          connected: true,
-          name: '云康宝体脂秤',
-          lastSync: '刚刚'
-        }
-      });
-      
-      wx.showToast({
-        title: '同步成功',
-        icon: 'success'
-      });
-    }, 1500);
-  },
-
+  
   /**
    * 保存记录
    */
   saveRecord() {
     const { weight, bodyFat, date, time, note } = this.data;
     
-    // 验证必填项
-    if (!weight || weight === '0') {
+    // 检查是否输入了体重
+    if (!weight || weight === '0.0' || weight === '.') {
       wx.showToast({
         title: '请输入有效体重',
         icon: 'none'
@@ -205,73 +169,60 @@ Page({
       return;
     }
     
-    // 创建记录对象
+    // 构建记录对象
     const record = {
+      weight: parseFloat(weight),
       date: date,
       time: time,
-      weight: parseFloat(weight),
-      bodyFat: bodyFat ? parseFloat(bodyFat) : null,
-      note: note
+      note: note,
     };
     
-    wx.showLoading({
-      title: '保存中...',
-    });
+    // 如果有体脂率，添加到记录中
+    if (bodyFat && bodyFat !== '0.0' && bodyFat !== '.') {
+      record.bodyFat = parseFloat(bodyFat);
+    }
     
     // 调用API保存记录
-    api.addWeightRecord(record).then(res => {
-      wx.hideLoading();
-      
+    api.addWeightRecord(record).then(() => {
       wx.showToast({
-        title: '记录成功',
+        title: '记录保存成功',
         icon: 'success'
       });
       
-      // 重置表单
-      this.resetForm();
-      
-      // 刷新最近记录
+      // 重新加载记录
       this.loadRecentRecords();
+      
+      // 重置输入
+      this.setData({
+        weight: '0.0',
+        bodyFat: '',
+        note: ''
+      });
     }).catch(err => {
-      wx.hideLoading();
+      console.error('保存记录失败', err);
       wx.showToast({
-        title: '保存失败',
+        title: '保存失败，请重试',
         icon: 'none'
       });
     });
   },
-
+  
   /**
-   * 重置表单
-   */
-  resetForm() {
-    const now = new Date();
-    this.setData({
-      weight: '',
-      bodyFat: '',
-      note: '',
-      date: this.formatDate(now),
-      time: this.formatTime(now),
-      showKeyboard: false
-    });
-  },
-
-  /**
-   * 格式化日期为 YYYY-MM-DD
+   * 格式化日期为YYYY-MM-DD格式
    */
   formatDate(date) {
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
     return `${year}-${month}-${day}`;
   },
-
+  
   /**
-   * 格式化时间为 HH:MM
+   * 格式化时间为HH:MM格式
    */
   formatTime(date) {
-    const hours = date.getHours().toString().padStart(2, '0');
-    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
     return `${hours}:${minutes}`;
   },
 

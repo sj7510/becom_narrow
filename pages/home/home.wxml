@@ -79,33 +79,55 @@
     <view class="goal-card">
       <view class="goal-header">
         <view class="goal-title">目标进度</view>
-        <view class="goal-subtitle">
-          <my-icon type="{{userInfo.goalType === 'reduce' ? 'arrow-down' : (userInfo.goalType === 'increase' ? 'arrow-up' : 'minus')}}" size="24" color="#666"></my-icon>
-          <text>{{userInfo.goalType === 'reduce' ? '减重目标' : userInfo.goalType === 'increase' ? '增肌目标' : '体重维持'}}:
-          {{userInfo.targetWeight || '0.0'}} kg</text>
+        <view class="goal-badge" wx:if="{{userInfo.goalType === 'reduce'}}">
+          <my-icon type="arrow-down" size="24" color="#fff"></my-icon>
+          <text>减重目标: {{userInfo.targetWeight || '0.0'}} kg</text>
+        </view>
+        <view class="goal-badge" wx:elif="{{userInfo.goalType === 'increase'}}">
+          <my-icon type="arrow-up" size="24" color="#fff"></my-icon>
+          <text>增肌目标: {{userInfo.targetWeight || '0.0'}} kg</text>
+        </view>
+        <view class="goal-badge" wx:else>
+          <my-icon type="minus" size="24" color="#fff"></my-icon>
+          <text>体重维持: {{userInfo.targetWeight || '0.0'}} kg</text>
         </view>
       </view>
-      <view class="goal-progress">
-        <view class="progress-container">
-          <view class="progress-bar" style="width: {{goalProgress || 0}}%"></view>
-        </view>
-        <view class="progress-text">{{goalProgress || 0}}%</view>
-      </view>
-      <view class="goal-detail">
-        <view class="goal-item">
-          <view class="goal-item-label">当前</view>
-          <view class="goal-item-value">{{latestWeight.weight || userInfo.initialWeight || '0.0'}} kg</view>
-        </view>
-        <view class="goal-item">
-          <view class="goal-item-label">目标</view>
-          <view class="goal-item-value">{{userInfo.targetWeight || '0.0'}} kg</view>
-        </view>
-        <view class="goal-item">
-          <view class="goal-item-label">目标日期</view>
-          <view class="goal-item-value">
-            <my-icon type="calendar" color="#666" size="24"></my-icon>
-            <text>{{userInfo.targetDate || '未设置'}}</text>
+      
+      <view class="goal-visual">
+        <!-- 完全重新设计进度显示部分，使用更整洁的布局 -->
+        <view class="weight-labels">
+          <view class="weight-label left">
+            <text class="weight-number">{{userInfo.initialWeight || '0.0'}} kg</text>
+            <text class="weight-tag">初始</text>
           </view>
+          <view class="weight-label right">
+            <text class="weight-number">{{userInfo.targetWeight || '0.0'}} kg</text>
+            <text class="weight-tag">目标</text>
+          </view>
+        </view>
+        
+        <view class="progress-bar-container">
+          <view class="progress-bar-bg"></view>
+          <view class="progress-bar-fill" style="width: {{goalProgress || 0}}%"></view>
+          <view class="current-weight-marker" style="left: {{Math.min(Math.max(goalProgress || 0, 2), 98)}}%">
+            <view class="marker-dot"></view>
+            <text class="marker-label">{{latestWeight.weight || userInfo.initialWeight || '0.0'}} kg</text>
+          </view>
+        </view>
+        
+        <view class="progress-percentage">
+          <text>{{goalProgress || 0}}%</text>
+        </view>
+      </view>
+
+      <view class="goal-details">
+        <view class="goal-date">
+          <my-icon type="calendar" color="#4b7ffb" size="32"></my-icon>
+          <text>目标日期: {{userInfo.targetDate || '未设置'}}</text>
+        </view>
+        <view class="remaining-days" wx:if="{{userInfo.targetDate}}">
+          <text class="days-count">{{daysRemaining || 0}}</text>
+          <text class="days-label">天剩余</text>
         </view>
       </view>
     </view>
@@ -115,15 +137,22 @@
       <view class="chart-header">
         <view class="chart-title">体重趋势</view>
         <view class="chart-period-selector">
-          <view class="{{period === 'week' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="week">周</view>
-          <view class="{{period === 'month' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="month">月</view>
-          <view class="{{period === 'year' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="year">年</view>
+          <view class="period-tab {{period === 'week' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="week">周</view>
+          <view class="period-tab {{period === 'month' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="month">月</view>
+          <view class="period-tab {{period === 'year' ? 'period-active' : ''}}" bindtap="changePeriod" data-period="year">年</view>
         </view>
       </view>
       <view class="chart-container">
-        <canvas canvas-id="weightChart" style="width: 100%; height: 400rpx;"></canvas>
-        <view wx:if="{{chartData.message}}" class="chart-empty-message">
-          {{chartData.message}}
+        <view wx:if="{{chartData && chartData.length > 0 && !chartData.message && !chartData.isEmpty}}" class="weight-chart-area">
+          <canvas canvas-id="weightChart" style="width: 100%; height: 400rpx;"></canvas>
+        </view>
+        <view wx:else class="chart-placeholder">
+          <view class="chart-placeholder-line"></view>
+          <view class="chart-placeholder-line"></view>
+          <view class="chart-placeholder-line"></view>
+          <view class="chart-placeholder-line"></view>
+          <view class="chart-placeholder-line"></view>
+          <view class="chart-placeholder-text">{{chartData.message || '暂无数据，请添加体重记录'}}</view>
         </view>
       </view>
     </view>

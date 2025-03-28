@@ -54,6 +54,12 @@ function getWeightRecords(period = 'all') {
         filteredRecords = mockData.weightHistory.filter(record => 
           new Date(record.date) >= oneMonthAgo
         );
+      } else if (period === 'year') {
+        const now = new Date();
+        const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
+        filteredRecords = mockData.weightHistory.filter(record => 
+          new Date(record.date) >= oneYearAgo
+        );
       }
       
       resolve(filteredRecords);

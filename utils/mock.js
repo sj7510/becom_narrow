@@ -49,41 +49,21 @@ const healthAdvice = [
   {
     id: 2,
     type: 'exercise',
-    title: '高效燃脂的运动方案',
-    subtitle: '科学的有氧与力量训练结合',
-    content: '结合有氧运动和力量训练可以最大化脂肪燃烧效果。建议每周进行3-4次30分钟以上的有氧训练，如快走、跑步或游泳。此外，每周进行2-3次全身力量训练，增加肌肉量可以提高基础代谢率，帮助长期保持体重。',
-    imageUrl: '/assets/images/exercise-plan.png',
+    title: '高效燃脂运动方案',
+    subtitle: '每周3次，每次30分钟',
+    content: '高强度间歇训练(HIIT)是最有效的燃脂方式之一。尝试30秒全力运动后休息30秒，重复8-10次为一组，每次训练做3-4组。力量训练也很重要，它可以提高基础代谢率，帮助你在休息时也能燃烧更多卡路里。',
+    imageUrl: '/assets/images/exercise-tips.png',
     likes: 98,
     isLiked: true
   },
   {
     id: 3,
     type: 'rest',
-    title: '充足睡眠对体重管理的重要性',
-    subtitle: '睡眠不足会影响荷尔蒙平衡',
-    content: '研究表明，睡眠不足会扰乱调节饥饿感的荷尔蒙平衡，增加饥饿感并降低饱腹感。成年人应该每晚保证7-8小时的高质量睡眠。尝试建立规律的睡眠时间表，避免睡前使用电子设备，并创造一个舒适的睡眠环境。',
-    imageUrl: '/assets/images/sleep-importance.png',
-    likes: 75,
-    isLiked: false
-  },
-  {
-    id: 4,
-    type: 'diet',
-    title: '饮水对减重的重要性',
-    subtitle: '合理饮水促进新陈代谢',
-    content: '充足的水分摄入对于减重至关重要。研究表明，饮水可以暂时提高静息代谢率，帮助燃烧更多热量。此外，餐前饮水可以增加饱腹感，减少食物摄入。建议每天饮水量在2-3升左右，可以根据个人活动量适当调整。',
-    imageUrl: '/assets/images/water-importance.png',
-    likes: 88,
-    isLiked: false
-  },
-  {
-    id: 5,
-    type: 'exercise',
-    title: '力量训练的减脂效果',
-    subtitle: '增肌让脂肪燃烧更持久',
-    content: '很多人认为减肥只需要做有氧运动，但力量训练同样重要。肌肉组织比脂肪组织消耗更多热量，增加肌肉量可以提高基础代谢率。建议每周进行2-3次全身力量训练，每次30-45分钟，注重大肌群训练。',
-    imageUrl: '/assets/images/strength-training.png',
-    likes: 63,
+    title: '睡眠对减重的重要性',
+    subtitle: '如何通过优质睡眠促进减重',
+    content: '充足的睡眠对维持健康体重至关重要。研究表明，睡眠不足会增加饥饿感和食欲，特别是对高热量、高碳水化合物的食物。尝试每晚保持7-8小时的睡眠，建立规律的睡眠时间表，避免睡前使用电子设备。',
+    imageUrl: '/assets/images/sleep-tips.png',
+    likes: 76,
     isLiked: false
   }
 ];
@@ -92,31 +72,31 @@ const healthAdvice = [
 const achievements = [
   {
     id: 1,
-    name: '记录先锋',
-    description: '连续记录7天体重',
-    icon: 'fire',
+    name: '开始之旅',
+    description: '完成首次体重记录',
+    icon: 'flag',
     completed: true,
-    date: '2024-03-08'
+    progress: 100
   },
   {
     id: 2,
-    name: '稳步减重',
-    description: '一周减重0.5kg',
-    icon: 'chart-line',
+    name: '连续记录',
+    description: '连续记录体重7天',
+    icon: 'calendar',
     completed: true,
-    date: '2024-03-14'
+    progress: 100
   },
   {
     id: 3,
-    name: '健康领袖',
-    description: 'BMI达到健康范围',
-    icon: 'shield-alt',
-    completed: false,
-    progress: 80
+    name: '稳步前进',
+    description: '减重1公斤',
+    icon: 'chart-line',
+    completed: true,
+    progress: 100
   },
   {
     id: 4,
-    name: '体重目标达成',
+    name: '目标达成',
     description: '达到目标体重',
     icon: 'trophy',
     completed: false,
@@ -132,22 +112,10 @@ const achievements = [
   }
 ];
 
-// 设备信息
-const devices = [
-  {
-    id: 'scale001',
-    name: '小米体脂秤2',
-    type: 'scale',
-    lastSync: '2024-03-18 07:45',
-    connected: true
-  }
-];
-
 // 导出所有模拟数据
 module.exports = {
   userInfo,
   weightHistory,
   healthAdvice,
-  achievements,
-  devices
+  achievements
 }; 

@@ -57,22 +57,7 @@
     </view>
   </view>
   
-  <!-- 设备同步区域 -->
-  <view class="device-container">
-    <view class="device-info">
-      <view class="device-icon">
-        <my-icon type="weight" color="#4b7ffb" size="40"></my-icon>
-      </view>
-      <view class="device-content">
-        <text class="device-name">{{device.name}}</text>
-        <text class="device-status">上次同步：{{device.lastSync}}</text>
-      </view>
-    </view>
-    <button class="sync-btn" bindtap="syncDevice">
-      <my-icon type="sync" color="#ffffff" size="28"></my-icon>
-      <text>同步</text>
-    </button>
-  </view>
+  <!-- 设备同步区域已移除 -->
   
   <!-- 最近记录区域 -->
   <view class="recent-records-container" wx:if="{{savedRecords.length > 0}}">
